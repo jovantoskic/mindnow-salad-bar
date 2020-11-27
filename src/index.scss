@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,900');
+@import './styles/settings';
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  font-family: $font-family;
+  background-color: $white;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+button {
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: none;
+  outline: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
