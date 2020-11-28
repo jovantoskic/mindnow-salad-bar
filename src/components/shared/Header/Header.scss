@@ -1,0 +1,25 @@
+@import '../../../styles/settings';
+@import '../../../styles/helpers';
+
+.header-container {
+  .header-inner-container {
+    @include alignMe(space-between, center);
+    .header-items {
+      width: 80vw;
+      @include alignMe(flex-end, center);
+
+      .header-item {
+        @include alignMe(center, center);
+        font-size: 1.1rem;
+        color: $main;
+        &:not(:last-child) {
+          padding: 0 5rem 0 0;
+        }
+      }
+    }
+    .salad-icon {
+      min-width: 3.5rem;
+      object-fit: contain;
+    }
+  }
+}

@@ -1,0 +1,19 @@
+@import '../../../styles/settings';
+@import '../../../styles/helpers';
+
+.add-ingredients-container {
+  width: 80vw;
+  margin: 0 auto;
+  @include alignMe(space-between, flex-start);
+  .add-ingredients-form {
+    width: 45%;
+    @include alignMe(center, flex-start);
+    flex-direction: column;
+    .input-field {
+      margin-bottom: 1rem;
+    }
+  }
+  .typography-container {
+    width: 45%;
+  }
+}
