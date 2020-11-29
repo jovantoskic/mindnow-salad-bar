@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
   Table,
@@ -13,52 +13,45 @@ import {
   Tooltip,
 } from '@material-ui/core';
 import Layout from '../../shared/Layout';
+import Loading from '../../shared/Loading';
 import AddNameOrTag from '../../shared/AddNameOrTag';
-import { sortByDescOrder } from '../../../utils/helpers';
-import { store } from '../../../store/store';
+import { sortByDescOrder, filterTag } from '../../../utils/helpers';
 import { API_BASE_URL } from '../../../constants/apiRoutes';
 
 import './MakeSalad.scss';
 
 function MakeSalad() {
-  const appContext = useContext(store);
-  const { dispatch } = appContext;
   const [sorted, setSorted] = useState();
+  const [ingredients, setIngredients] = useState([]);
 
-  const order = sorted ? 'desc' : 'asc';
+  const direction = sorted ? 'desc' : 'asc';
 
-  const updateIngredients = newValue => {
-    dispatch({ type: 'UPDATE_INGREDIENTS', payload: newValue });
-  };
-
-  const filterTags = event => {
-    const tag = event.target.textContent;
-    axios.get(`${API_BASE_URL}?filter=${tag}`).then(response => {
-      const filteredTags = response.data.filter(result => {
-        return result.tag === event.target.textContent;
-      });
-      updateIngredients(filteredTags);
-    });
+  const filterByTags = event => {
+    filterTag(event, setIngredients);
   };
 
   const searchByName = event => {
     const name = event.target.textContent;
     axios.get(`${API_BASE_URL}?search=${name}`).then(response => {
-      updateIngredients(response.data);
+      setIngredients(response.data);
     });
   };
 
-  const sortIngredients = () => {
-    if (order === 'asc') {
-      updateIngredients(appContext.state.ingredients.reverse());
+  const sortCalories = () => {
+    if (direction === 'asc') {
+      setIngredients(ingredients.reverse());
       setSorted(!sorted);
-    } else if (order === 'desc') {
-      updateIngredients(
-        sortByDescOrder(appContext.state.ingredients, 'calories')
-      );
+    } else if (direction === 'desc') {
+      setIngredients(sortByDescOrder(ingredients, 'calories'));
       setSorted(!sorted);
     }
   };
+
+  useEffect(() => {
+    axios.get(API_BASE_URL).then(response => {
+      setIngredients(sortByDescOrder(response.data, 'calories'));
+    });
+  }, []);
 
   const sumAllCalories = arr => {
     if (arr) {
@@ -70,63 +63,70 @@ function MakeSalad() {
   return (
     <Layout>
       <div className="make-salad-container">
-        <AddNameOrTag />
-        {appContext.state.ingredients && (
-          <TableContainer component={Paper}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Ingredient</TableCell>
-                  <TableCell>
-                    Calories
-                    <Tooltip title="Sort by calories" placement="top">
-                      <TableSortLabel
-                        active={true}
-                        onClick={sortIngredients}
-                        direction={order}
-                      />
-                    </Tooltip>
-                  </TableCell>
-                  <TableCell>Tag</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {appContext.state.ingredients.map(data => {
-                  const { calories, name, tag, id } = data;
-                  return (
-                    <TableRow key={id}>
-                      <Tooltip title="Search by name" placement="left">
-                        <TableCell className="name-cell" onClick={searchByName}>
-                          {name}
-                        </TableCell>
+        {ingredients && ingredients.length ? (
+          <div>
+            <AddNameOrTag />
+            <TableContainer component={Paper}>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Ingredient</TableCell>
+                    <TableCell>
+                      Calories
+                      <Tooltip title="Sort by calories" placement="top">
+                        <TableSortLabel
+                          active={true}
+                          onClick={sortCalories}
+                          direction={direction}
+                        />
                       </Tooltip>
-                      <TableCell>{calories}</TableCell>
-                      <Tooltip title="Filter by tag" placement="left">
-                        <TableCell>
-                          <Chip
-                            className="tag-cell"
-                            variant="outlined"
-                            label={tag}
-                            color="primary"
-                            size="small"
-                            onClick={filterTags}
-                          ></Chip>
-                        </TableCell>
-                      </Tooltip>
-                    </TableRow>
-                  );
-                })}
-                <TableRow>
-                  <TableCell className="total-calories">
-                    Total number of calories:
-                  </TableCell>
-                  <TableCell className="total-calories">
-                    {sumAllCalories(appContext.state.ingredients)}
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </TableContainer>
+                    </TableCell>
+                    <TableCell>Tag</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {ingredients.map(data => {
+                    const { calories, name, tag, id } = data;
+                    return (
+                      <TableRow key={id}>
+                        <Tooltip title="Search by name" placement="left">
+                          <TableCell
+                            className="name-cell"
+                            onClick={searchByName}
+                          >
+                            {name}
+                          </TableCell>
+                        </Tooltip>
+                        <TableCell>{calories}</TableCell>
+                        <Tooltip title="Filter by tag" placement="left">
+                          <TableCell>
+                            <Chip
+                              className="tag-cell"
+                              variant="outlined"
+                              label={tag}
+                              color="primary"
+                              size="small"
+                              onClick={filterByTags}
+                            ></Chip>
+                          </TableCell>
+                        </Tooltip>
+                      </TableRow>
+                    );
+                  })}
+                  <TableRow>
+                    <TableCell className="total-calories">
+                      Total number of calories:
+                    </TableCell>
+                    <TableCell className="total-calories">
+                      {sumAllCalories(ingredients)}
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </div>
+        ) : (
+          <Loading />
         )}
       </div>
     </Layout>

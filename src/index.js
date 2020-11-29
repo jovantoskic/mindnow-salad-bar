@@ -2,17 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import StoreProvider from './store/store';
 import theme from './styles/theme';
 import { ThemeProvider } from '@material-ui/core/styles';
 
 ReactDOM.render(
   <React.StrictMode>
-    <StoreProvider>
-      <ThemeProvider theme={theme}>
-        <App />
-      </ThemeProvider>
-    </StoreProvider>
+    <ThemeProvider theme={theme}>
+      <App />
+    </ThemeProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

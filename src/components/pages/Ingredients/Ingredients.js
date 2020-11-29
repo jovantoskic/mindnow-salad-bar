@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
   Table,
@@ -10,60 +10,46 @@ import {
   Paper,
   TableSortLabel,
   Tooltip,
-  Toolbar,
   Chip,
 } from '@material-ui/core';
 import Layout from '../../shared/Layout';
+import Loading from '../../shared/Loading';
 
-import { sortByDescOrder } from '../../../utils/helpers';
-import { store } from '../../../store/store';
+import { sortByDescOrder, filterTag } from '../../../utils/helpers';
 import { API_BASE_URL } from '../../../constants/apiRoutes';
 
 import './Ingredients.scss';
 
 function Ingredients() {
-  const appContext = useContext(store);
-  const { dispatch } = appContext;
   const [sorted, setSorted] = useState(false);
+  const [ingredients, setIngredients] = useState([]);
 
-  const order = sorted ? 'desc' : 'asc';
+  const direction = sorted ? 'desc' : 'asc';
 
-  const updateIngredients = newValue => {
-    dispatch({ type: 'UPDATE_INGREDIENTS', payload: newValue });
-  };
-
-  const sortIngredients = () => {
-    if (order === 'asc') {
-      updateIngredients(appContext.state.ingredients.reverse());
+  const sortCalories = () => {
+    if (direction === 'asc') {
+      setIngredients(ingredients.reverse());
       setSorted(!sorted);
-    } else if (order === 'desc') {
-      updateIngredients(
-        sortByDescOrder(appContext.state.ingredients, 'calories')
-      );
+    } else if (direction === 'desc') {
+      setIngredients(sortByDescOrder(ingredients, 'calories'));
       setSorted(!sorted);
     }
   };
 
-  const filterTags = event => {
-    const tag = event.target.textContent;
-    axios.get(`${API_BASE_URL}?filter=${tag}`).then(response => {
-      const filteredTags = response.data.filter(result => {
-        return result.tag === event.target.textContent;
-      });
-      updateIngredients(filteredTags);
-    });
+  const filterByTag = event => {
+    filterTag(event, setIngredients);
   };
 
   useEffect(() => {
     axios.get(API_BASE_URL).then(response => {
-      updateIngredients(sortByDescOrder(response.data, 'calories'));
+      setIngredients(sortByDescOrder(response.data, 'calories'));
     });
   }, []);
 
   return (
     <Layout>
       <div className="ingredients-container">
-        {appContext.state.ingredients && (
+        {ingredients && ingredients.length ? (
           <TableContainer component={Paper}>
             <Table>
               <TableHead>
@@ -74,8 +60,8 @@ function Ingredients() {
                     <Tooltip title="Sort by calories" placement="top">
                       <TableSortLabel
                         active={true}
-                        onClick={sortIngredients}
-                        direction={order}
+                        onClick={sortCalories}
+                        direction={direction}
                       />
                     </Tooltip>
                   </TableCell>
@@ -84,7 +70,7 @@ function Ingredients() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {appContext.state.ingredients.map(data => {
+                {ingredients.map(data => {
                   const { image, calories, name, tag, id } = data;
                   return (
                     <TableRow key={id}>
@@ -98,7 +84,7 @@ function Ingredients() {
                             label={tag}
                             color="primary"
                             size="small"
-                            onClick={filterTags}
+                            onClick={filterByTag}
                           ></Chip>
                         </TableCell>
                       </Tooltip>
@@ -111,6 +97,8 @@ function Ingredients() {
               </TableBody>
             </Table>
           </TableContainer>
+        ) : (
+          <Loading />
         )}
       </div>
     </Layout>

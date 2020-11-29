@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { TAGS } from '../../../constants/appConstants';
-import { MenuItem, TextField, Button, Typography } from '@material-ui/core';
+import { MenuItem, TextField, Button } from '@material-ui/core';
 
 import './AddNameOrTag.scss';
 
@@ -41,7 +41,7 @@ function AddNameOrTag() {
             className="choose-salad-tag"
             name="saladTag"
             size="small"
-            label="Choose tag"
+            label="Choose salad tag"
             type="text"
             value={data.saladTag}
             onChange={handleChange}
@@ -52,7 +52,6 @@ function AddNameOrTag() {
               </MenuItem>
             ))}
           </TextField>
-
           <Button
             className="add-tag-button"
             type="button"
@@ -63,7 +62,6 @@ function AddNameOrTag() {
             Add tag
           </Button>
         </div>
-
         <div className="tag-container">
           <p className="tag-label">Tag name:</p>
           <p className="tag">{savedTag}</p>
@@ -75,10 +73,10 @@ function AddNameOrTag() {
           <TextField
             variant="outlined"
             color="primary"
-            className="choose-salad-tag"
+            className="add-salad-name"
             name="saladName"
             size="small"
-            label="Add name"
+            label="Add salad name"
             type="text"
             value={data.saladName}
             onChange={handleChange}
