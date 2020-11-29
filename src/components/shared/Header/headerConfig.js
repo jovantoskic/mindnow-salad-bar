@@ -7,7 +7,7 @@ export const navItems = [
   {
     exact: true,
     name: 'Ingredients',
-    to: '/added-ingredients',
+    to: '/ingredients',
   },
   {
     exact: true,

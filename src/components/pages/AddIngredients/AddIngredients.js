@@ -1,18 +1,17 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-import { Button, TextField, Typography } from '@material-ui/core';
+import { Button, TextField, Typography, MenuItem } from '@material-ui/core';
 import Layout from '../../shared/Layout';
 
-import { BASE_URL } from '../../../constants/apiRoutes';
+import { API_BASE_URL } from '../../../constants/apiRoutes';
 
 import './AddIngredients.scss';
 
 function AddIngredients() {
-  const [updated, setUpdated] = useState(false);
-  const [state, setState] = useState({
+  const [data, setData] = useState({
     name: '',
-    calories: '',
+    calories: 0,
     image: '',
     tag: '',
   });
@@ -20,20 +19,19 @@ function AddIngredients() {
   const handleChange = event => {
     const key = event.target.name;
     const value = event.target.value;
-    setState({
-      ...state,
+    setData({
+      ...data,
       [key]: value,
     });
   };
 
   const handleSubmit = event => {
     event.preventDefault();
-    axios.post(BASE_URL, state).then(response => {
+    axios.post(API_BASE_URL, data).then(response => {
       if (response.data) {
-        setUpdated(true);
-        setState({
+        setData({
           name: '',
-          calories: '',
+          calories: 0,
           image: '',
           tag: '',
         });
@@ -49,7 +47,7 @@ function AddIngredients() {
             name="name"
             className="input-field"
             label="Ingredient name"
-            value={state.name}
+            value={data.name}
             type="text"
             variant="outlined"
             color="primary"
@@ -60,7 +58,7 @@ function AddIngredients() {
             name="calories"
             className="input-field"
             label="Calories"
-            value={state.calories}
+            value={data.calories}
             type="number"
             variant="outlined"
             color="primary"
@@ -71,27 +69,29 @@ function AddIngredients() {
             name="image"
             className="input-field"
             label="Ingredient image"
-            value={state.image}
+            value={data.image}
             type="text"
             variant="outlined"
             color="primary"
             fullWidth
             onChange={handleChange}
           />
-
           <TextField
+            select
             name="tag"
             className="input-field"
             label="Add tag to ingredient"
             placeholder="Add tag to ingredient"
-            value={state.tag}
+            value={data.tag}
             type="text"
             variant="outlined"
             color="primary"
             fullWidth
             onChange={handleChange}
-          />
-
+          >
+            <MenuItem>Ten</MenuItem>
+            <MenuItem value="something">Something</MenuItem>
+          </TextField>
           <Button type="submit" variant="outlined">
             Add ingredients
           </Button>

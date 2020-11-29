@@ -1,0 +1,12 @@
+@import '../../../styles/settings';
+@import '../../../styles/helpers';
+
+.ingredients-container {
+  max-width: 80vw;
+  margin: 0 auto;
+  .ingredient-image {
+    max-width: 3.5rem;
+    border-radius: 3px;
+    object-fit: contain;
+  }
+}
