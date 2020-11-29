@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import {
   Table,
@@ -9,27 +9,43 @@ import {
   TableRow,
   Paper,
   TableSortLabel,
-  Tooltip,
-  Toolbar,
   Chip,
+  Tooltip,
 } from '@material-ui/core';
 import Layout from '../../shared/Layout';
-
+import AddNameOrTag from '../../shared/AddNameOrTag';
 import { sortByDescOrder } from '../../../utils/helpers';
 import { store } from '../../../store/store';
 import { API_BASE_URL } from '../../../constants/apiRoutes';
 
-import './Ingredients.scss';
+import './MakeSalad.scss';
 
-function Ingredients() {
+function MakeSalad() {
   const appContext = useContext(store);
   const { dispatch } = appContext;
-  const [sorted, setSorted] = useState(false);
+  const [sorted, setSorted] = useState();
 
   const order = sorted ? 'desc' : 'asc';
 
   const updateIngredients = newValue => {
     dispatch({ type: 'UPDATE_INGREDIENTS', payload: newValue });
+  };
+
+  const filterTags = event => {
+    const tag = event.target.textContent;
+    axios.get(`${API_BASE_URL}?filter=${tag}`).then(response => {
+      const filteredTags = response.data.filter(result => {
+        return result.tag === event.target.textContent;
+      });
+      updateIngredients(filteredTags);
+    });
+  };
+
+  const searchByName = event => {
+    const name = event.target.textContent;
+    axios.get(`${API_BASE_URL}?search=${name}`).then(response => {
+      updateIngredients(response.data);
+    });
   };
 
   const sortIngredients = () => {
@@ -44,25 +60,17 @@ function Ingredients() {
     }
   };
 
-  const filterTags = event => {
-    const tag = event.target.textContent;
-    axios.get(`${API_BASE_URL}?filter=${tag}`).then(response => {
-      const filteredTags = response.data.filter(result => {
-        return result.tag === event.target.textContent;
-      });
-      updateIngredients(filteredTags);
-    });
+  const sumAllCalories = arr => {
+    if (arr) {
+      const calories = arr.map(ingredient => Number(ingredient.calories));
+      return calories.reduce((a, b) => a + b, 0);
+    }
   };
-
-  useEffect(() => {
-    axios.get(API_BASE_URL).then(response => {
-      updateIngredients(sortByDescOrder(response.data, 'calories'));
-    });
-  }, []);
 
   return (
     <Layout>
-      <div className="ingredients-container">
+      <div className="make-salad-container">
+        <AddNameOrTag />
         {appContext.state.ingredients && (
           <TableContainer component={Paper}>
             <Table>
@@ -80,15 +88,18 @@ function Ingredients() {
                     </Tooltip>
                   </TableCell>
                   <TableCell>Tag</TableCell>
-                  <TableCell>Image</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {appContext.state.ingredients.map(data => {
-                  const { image, calories, name, tag, id } = data;
+                  const { calories, name, tag, id } = data;
                   return (
                     <TableRow key={id}>
-                      <TableCell>{name}</TableCell>
+                      <Tooltip title="Search by name" placement="left">
+                        <TableCell className="name-cell" onClick={searchByName}>
+                          {name}
+                        </TableCell>
+                      </Tooltip>
                       <TableCell>{calories}</TableCell>
                       <Tooltip title="Filter by tag" placement="left">
                         <TableCell>
@@ -102,12 +113,17 @@ function Ingredients() {
                           ></Chip>
                         </TableCell>
                       </Tooltip>
-                      <TableCell>
-                        <img className="ingredient-image" src={image} />
-                      </TableCell>
                     </TableRow>
                   );
                 })}
+                <TableRow>
+                  <TableCell className="total-calories">
+                    Total number of calories:
+                  </TableCell>
+                  <TableCell className="total-calories">
+                    {sumAllCalories(appContext.state.ingredients)}
+                  </TableCell>
+                </TableRow>
               </TableBody>
             </Table>
           </TableContainer>
@@ -117,4 +133,4 @@ function Ingredients() {
   );
 }
 
-export default Ingredients;
+export default MakeSalad;

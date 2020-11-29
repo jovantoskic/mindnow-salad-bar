@@ -5,6 +5,7 @@ import { Button, TextField, Typography, MenuItem } from '@material-ui/core';
 import Layout from '../../shared/Layout';
 
 import { API_BASE_URL } from '../../../constants/apiRoutes';
+import { TAGS } from '../../../constants/appConstants';
 
 import './AddIngredients.scss';
 
@@ -89,8 +90,11 @@ function AddIngredients() {
             fullWidth
             onChange={handleChange}
           >
-            <MenuItem>Ten</MenuItem>
-            <MenuItem value="something">Something</MenuItem>
+            {TAGS.map(tag => (
+              <MenuItem key={tag} value={tag}>
+                {tag}
+              </MenuItem>
+            ))}
           </TextField>
           <Button type="submit" variant="outlined">
             Add ingredients

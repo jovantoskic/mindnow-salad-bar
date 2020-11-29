@@ -1,0 +1,37 @@
+@import '../../../styles/settings';
+@import '../../../styles/helpers';
+
+.add-name-or-tag-container {
+  width: 100%;
+  @include alignMe(space-between, center);
+  .tag-name-container {
+    width: 25rem;
+    margin: 0 0 1.5rem 1rem;
+    .tag-name-fields-container {
+      @include alignMe(space-between, center);
+      margin-bottom: 0.5rem;
+      .choose-salad-tag {
+        width: 48%;
+      }
+      .add-tag-button {
+        width: 48%;
+        height: 2.5rem;
+      }
+    }
+    .name-container,
+    .tag-container {
+      width: 100%;
+      @include alignMe(flex-start, center);
+      .tag-label,
+      .name-label {
+        margin-right: 0.5rem;
+        font-weight: $font-weight-semibold;
+      }
+      .tag,
+      .name {
+        font-size: $font-size-l;
+        color: #00973c;
+      }
+    }
+  }
+}

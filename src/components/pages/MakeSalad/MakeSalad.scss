@@ -1,14 +1,14 @@
 @import '../../../styles/settings';
 @import '../../../styles/helpers';
 
-.ingredients-container {
+.make-salad-container {
   max-width: 80vw;
   margin: 0 auto;
-  .ingredient-image {
-    max-width: 3.5rem;
-    border-radius: 3px;
-    object-fit: contain;
+  .total-calories {
+    font-size: $font-size-md;
+    font-weight: $font-weight-semibold;
   }
+  .name-cell,
   .tag-cell {
     cursor: pointer;
   }
