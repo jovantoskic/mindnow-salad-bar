@@ -13,8 +13,6 @@ import {
   Chip,
 } from '@material-ui/core';
 import Layout from '../../shared/Layout';
-import Loading from '../../shared/Loading';
-
 import { sortByDescOrder, filterTag } from '../../../utils/helpers';
 import { API_BASE_URL } from '../../../constants/apiRoutes';
 
@@ -36,7 +34,7 @@ function Ingredients() {
     }
   };
 
-  const filterByTag = event => {
+  const filterByTags = event => {
     filterTag(event, setIngredients);
   };
 
@@ -49,7 +47,7 @@ function Ingredients() {
   return (
     <Layout>
       <div className="ingredients-container">
-        {ingredients && ingredients.length ? (
+        {ingredients && ingredients.length > 0 && (
           <TableContainer component={Paper}>
             <Table>
               <TableHead>
@@ -84,12 +82,12 @@ function Ingredients() {
                             label={tag}
                             color="primary"
                             size="small"
-                            onClick={filterByTag}
+                            onClick={filterByTags}
                           ></Chip>
                         </TableCell>
                       </Tooltip>
                       <TableCell>
-                        <img className="ingredient-image" src={image} />
+                        <img className="ingredient-image" src={image} alt="" />
                       </TableCell>
                     </TableRow>
                   );
@@ -97,8 +95,6 @@ function Ingredients() {
               </TableBody>
             </Table>
           </TableContainer>
-        ) : (
-          <Loading />
         )}
       </div>
     </Layout>

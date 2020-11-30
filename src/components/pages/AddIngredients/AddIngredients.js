@@ -10,16 +10,24 @@ import { TAGS } from '../../../constants/appConstants';
 import './AddIngredients.scss';
 
 function AddIngredients() {
+    const [isDisabled, setIsDisabled] = useState(true);
   const [data, setData] = useState({
     name: '',
-    calories: 0,
+    calories: '',
     image: '',
     tag: '',
   });
 
+  const setDisabled = (field) => {
+    if(field !== '') {
+        setIsDisabled(false)
+    }
+  }
+
   const handleChange = event => {
     const key = event.target.name;
     const value = event.target.value;
+    setDisabled(key)
     setData({
       ...data,
       [key]: value,
@@ -32,7 +40,7 @@ function AddIngredients() {
       if (response.data) {
         setData({
           name: '',
-          calories: 0,
+          calories: '',
           image: '',
           tag: '',
         });
@@ -46,6 +54,7 @@ function AddIngredients() {
         <form className="add-ingredients-form" onSubmit={handleSubmit}>
           <TextField
             name="name"
+            required={true}
             className="input-field"
             label="Ingredient name"
             value={data.name}
@@ -57,6 +66,7 @@ function AddIngredients() {
           />
           <TextField
             name="calories"
+            required={true}
             className="input-field"
             label="Calories"
             value={data.calories}
@@ -80,6 +90,7 @@ function AddIngredients() {
           <TextField
             select
             name="tag"
+            required={true}
             className="input-field"
             label="Add tag to ingredient"
             placeholder="Add tag to ingredient"
@@ -96,7 +107,7 @@ function AddIngredients() {
               </MenuItem>
             ))}
           </TextField>
-          <Button type="submit" variant="outlined">
+          <Button type="submit" variant="outlined" disabled={isDisabled}>
             Add ingredients
           </Button>
         </form>

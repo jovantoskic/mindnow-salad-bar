@@ -18,3 +18,10 @@ export const filterTag = (event, callback) => {
     callback(filteredTags);
   });
 };
+
+export const sumAllCalories = arr => {
+  if (arr) {
+    const calories = arr.map(ingredient => Number(ingredient.calories));
+    return calories.reduce((a, b) => a + b, 0);
+  }
+};

@@ -82,7 +82,7 @@ function AddNameOrTag() {
             onChange={handleChange}
           />
           <Button
-            className="add-tag-button"
+            className="add-name-button"
             type="button"
             size="medium"
             variant="outlined"

@@ -13,9 +13,12 @@ import {
   Tooltip,
 } from '@material-ui/core';
 import Layout from '../../shared/Layout';
-import Loading from '../../shared/Loading';
 import AddNameOrTag from '../../shared/AddNameOrTag';
-import { sortByDescOrder, filterTag } from '../../../utils/helpers';
+import {
+  sortByDescOrder,
+  filterTag,
+  sumAllCalories,
+} from '../../../utils/helpers';
 import { API_BASE_URL } from '../../../constants/apiRoutes';
 
 import './MakeSalad.scss';
@@ -53,17 +56,10 @@ function MakeSalad() {
     });
   }, []);
 
-  const sumAllCalories = arr => {
-    if (arr) {
-      const calories = arr.map(ingredient => Number(ingredient.calories));
-      return calories.reduce((a, b) => a + b, 0);
-    }
-  };
-
   return (
     <Layout>
       <div className="make-salad-container">
-        {ingredients && ingredients.length ? (
+        {ingredients && ingredients.length > 0 && (
           <div>
             <AddNameOrTag />
             <TableContainer component={Paper}>
@@ -107,7 +103,7 @@ function MakeSalad() {
                               color="primary"
                               size="small"
                               onClick={filterByTags}
-                            ></Chip>
+                            />
                           </TableCell>
                         </Tooltip>
                       </TableRow>
@@ -125,8 +121,6 @@ function MakeSalad() {
               </Table>
             </TableContainer>
           </div>
-        ) : (
-          <Loading />
         )}
       </div>
     </Layout>
