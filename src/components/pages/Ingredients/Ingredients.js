@@ -12,6 +12,7 @@ import {
   Tooltip,
   Chip,
   Typography,
+  Button,
 } from '@material-ui/core';
 import Layout from '../../shared/Layout';
 import Fetching from '../../shared/Fetching';
@@ -23,6 +24,7 @@ import './Ingredients.scss';
 function Ingredients() {
   const [sorted, setSorted] = useState(false);
   const [ingredients, setIngredients] = useState([]);
+  const [clear, setClear] = useState(false);
 
   const direction = sorted ? 'desc' : 'asc';
 
@@ -44,16 +46,25 @@ function Ingredients() {
     axios.get(API_BASE_URL).then(response => {
       setIngredients(sortByDescOrder(response.data, 'calories'));
     });
-  }, []);
+  }, [clear]);
 
   return (
     <Layout>
       <div className="ingredients-container">
-        {ingredients && ingredients.length > 0 ? (
-          <div>
-            <Typography className="ingredients-headline" variant="h5">
-              Selected ingredients
-            </Typography>
+        {ingredients?.length ? (
+          <>
+            <div className="ingredients-headline">
+              <Typography variant="h5">Selected ingredients</Typography>
+              <Button
+                type="submit"
+                variant="outlined"
+                className="clear-button"
+                disabled={!ingredients}
+                onClick={() => setClear(!clear)}
+              >
+                Clear
+              </Button>
+            </div>
             <TableContainer component={Paper}>
               <Table>
                 <TableHead>
@@ -89,14 +100,14 @@ function Ingredients() {
                               color="primary"
                               size="small"
                               onClick={filterByTags}
-                            ></Chip>
+                            />
                           </TableCell>
                         </Tooltip>
                         <TableCell>
                           <img
                             className="ingredient-image"
                             src={image}
-                            alt=""
+                            alt="ingredient-image"
                           />
                         </TableCell>
                       </TableRow>
@@ -105,7 +116,7 @@ function Ingredients() {
                 </TableBody>
               </Table>
             </TableContainer>
-          </div>
+          </>
         ) : (
           <Fetching message="No ingredients!" />
         )}

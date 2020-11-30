@@ -48,7 +48,7 @@ function SaladOverview() {
   return (
     <Layout>
       <div className="salad-overview-container">
-        {ingredients && ingredients.length > 0 ? (
+        {ingredients?.length ? (
           <div>
             <div className="headlines-container">
               <div className="salad-name-container">

@@ -11,6 +11,7 @@ import {
   TableSortLabel,
   Chip,
   Tooltip,
+  Button,
 } from '@material-ui/core';
 import Layout from '../../shared/Layout';
 import Fetching from '../../shared/Fetching';
@@ -25,8 +26,9 @@ import { API_BASE_URL } from '../../../constants/apiRoutes';
 import './MakeSalad.scss';
 
 function MakeSalad() {
-  const [sorted, setSorted] = useState();
+  const [sorted, setSorted] = useState(false);
   const [ingredients, setIngredients] = useState([]);
+  const [clear, setClear] = useState(false);
 
   const direction = sorted ? 'desc' : 'asc';
 
@@ -55,13 +57,24 @@ function MakeSalad() {
     axios.get(API_BASE_URL).then(response => {
       setIngredients(sortByDescOrder(response.data, 'calories'));
     });
-  }, []);
+  }, [clear]);
 
   return (
     <Layout>
       <div className="make-salad-container">
-        {ingredients && ingredients.length > 0 ? (
-          <div>
+        {ingredients?.length ? (
+          <>
+            <div className="clear-container">
+              <Button
+                type="submit"
+                variant="outlined"
+                className="clear-button"
+                disabled={!ingredients}
+                onClick={() => setClear(!clear)}
+              >
+                Clear
+              </Button>
+            </div>
             <AddNameOrTag />
             <TableContainer component={Paper}>
               <Table>
@@ -121,7 +134,7 @@ function MakeSalad() {
                 </TableBody>
               </Table>
             </TableContainer>
-          </div>
+          </>
         ) : (
           <Fetching message="No ingredients!" />
         )}
