@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Button, TextField, Typography,MenuItem } from '@material-ui/core';
+import { Button, TextField, Typography, MenuItem } from '@material-ui/core';
 import Layout from '../../shared/Layout';
 import { API_BASE_URL } from '../../../constants/apiRoutes';
 import { TAGS } from '../../../constants/appConstants';
+import { handleChange } from '../../../utils/helpers';
 
 import './AddIngredients.scss';
 
@@ -15,13 +16,10 @@ function AddIngredients() {
     tag: '',
   });
 
-  const handleChange = event => {  
+  const handleInputChange = event => {
     const key = event.target.name;
     const value = event.target.value;
-    setData({
-      ...data,
-      [key]: value,
-    });
+    handleChange(setData, data, key, value);
   };
 
   const handleSubmit = event => {
@@ -52,7 +50,7 @@ function AddIngredients() {
             variant="outlined"
             color="primary"
             fullWidth
-            onChange={handleChange}
+            onChange={handleInputChange}
           />
           <TextField
             name="calories"
@@ -64,7 +62,7 @@ function AddIngredients() {
             variant="outlined"
             color="primary"
             fullWidth
-            onChange={handleChange}
+            onChange={handleInputChange}
           />
           <TextField
             name="image"
@@ -75,7 +73,7 @@ function AddIngredients() {
             variant="outlined"
             color="primary"
             fullWidth
-            onChange={handleChange}
+            onChange={handleInputChange}
           />
           <TextField
             select
@@ -88,7 +86,7 @@ function AddIngredients() {
             variant="outlined"
             color="primary"
             fullWidth
-            onChange={handleChange}
+            onChange={handleInputChange}
           >
             {TAGS.map(tag => (
               <MenuItem key={tag.id} value={tag.value}>
@@ -96,13 +94,17 @@ function AddIngredients() {
               </MenuItem>
             ))}
           </TextField>
-          <Button type="submit" variant="outlined">
+          <Button
+            className="add-ingredients-button"
+            type="submit"
+            variant="outlined"
+          >
             Add ingredients
           </Button>
         </form>
         <div className="typography-container">
           <Typography variant="h3">
-            Choose ingredients and make your one salad!
+            Enter desired ingredients and make your one salad!
           </Typography>
         </div>
       </div>

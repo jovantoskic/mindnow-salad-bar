@@ -4,6 +4,9 @@
 .ingredients-container {
   max-width: 80vw;
   margin: 0 auto;
+  .ingredients-headline {
+    margin-bottom: 1.5rem;
+  }
   .ingredient-image {
     max-width: 3.5rem;
     border-radius: 3px;

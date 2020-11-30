@@ -2,14 +2,29 @@
 @import '../../../styles/helpers';
 
 .salad-overview-container {
-  width: 50vw;
+  width: 40vw;
   margin: 0 auto;
   .headlines-container {
     width: 100%;
-    @include alignMe(flex-start, center);
+    @include alignMe(space-between, center);
     margin-bottom: 1.5rem;
+    .salad-name-container,
+    .salad-tag-container {
+      width: 49%;
+      @include alignMe(flex-start, center);
+    }
+    .salad-name-label,
+    .salad-tag-label {
+      white-space: nowrap;
+      font-weight: $font-weight-semibold;
+    }
+    .salad-name {
+      margin-left: 0.5rem;
+      font-size: $font-size-md;
+      color: #00973c;
+    }
     .salad-tag {
-      margin-left: 2rem;
+      margin-left: 0.5rem;
     }
   }
   .salad-info {

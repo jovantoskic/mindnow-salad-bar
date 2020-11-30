@@ -51,14 +51,26 @@ function SaladOverview() {
         {ingredients && ingredients.length > 0 ? (
           <div>
             <div className="headlines-container">
-              <Typography variant="h5">{saladName}</Typography>
-              <Chip
-                className="salad-tag"
-                variant="outlined"
-                label={saladTag}
-                color="primary"
-                size="medium"
-              />
+              <div className="salad-name-container">
+                <p className="salad-name-label">Salad name:</p>
+                <p className="salad-name">
+                  {saladName ? saladName : 'No name for this salad'}
+                </p>
+              </div>
+              <div className="salad-tag-container">
+                <p className="salad-tag-label">Salad tag:</p>
+                {saladTag ? (
+                  <Chip
+                    className="salad-tag"
+                    variant="outlined"
+                    label={saladTag}
+                    color="primary"
+                    size="medium"
+                  />
+                ) : (
+                  <p className="salad-tag">No tag for this salad</p>
+                )}
+              </div>
             </div>
             <TableContainer component={Paper}>
               <Table>
@@ -91,12 +103,13 @@ function SaladOverview() {
               </Table>
             </TableContainer>
             <Typography className="salad-info" variant="h6">
-              This salad has {sumAllCalories(ingredients)} calories in total,
-              and it's {saladTag}.
+              {`This salad has ${sumAllCalories(
+                ingredients
+              )} calories in total. ${saladTag ? `And it's ${saladTag}.` : ''}`}
             </Typography>
           </div>
         ) : (
-          <Fetching message="No salads!" />
+          <Fetching message="No salad created!" />
         )}
       </div>
     </Layout>

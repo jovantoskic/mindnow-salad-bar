@@ -123,7 +123,7 @@ function MakeSalad() {
             </TableContainer>
           </div>
         ) : (
-          <Fetching message="No salads!" />
+          <Fetching message="No ingredients!" />
         )}
       </div>
     </Layout>

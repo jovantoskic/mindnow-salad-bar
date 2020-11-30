@@ -25,3 +25,12 @@ export const sumAllCalories = arr => {
     return calories.reduce((a, b) => a + b, 0);
   }
 };
+
+export const handleChange = (callback, data, name, value) => {
+  const key = name;
+  const keyValue = value;
+  callback({
+    ...data,
+    [key]: keyValue,
+  });
+};

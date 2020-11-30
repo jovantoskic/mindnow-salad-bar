@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { TAGS } from '../../../constants/appConstants';
 import { MenuItem, TextField, Button } from '@material-ui/core';
+import { handleChange } from '../../../utils/helpers';
 
 import './AddNameOrTag.scss';
 
@@ -10,7 +11,7 @@ function AddNameOrTag() {
     saladName: '',
   });
 
-  const addNameOrTagToSalad = (get, set) => {
+  const setStorageItem = (get, set) => {
     localStorage.setItem(get, set);
     setData({
       saladTag: '',
@@ -18,17 +19,19 @@ function AddNameOrTag() {
     });
   };
 
-  const handleChange = event => {
+  const handleInputChange = event => {
     const key = event.target.name;
     const value = event.target.value;
-    setData({
-      ...data,
-      [key]: value,
-    });
+    handleChange(setData, data, key, value);
   };
 
-  const savedTag = localStorage.getItem('saladTag');
-  const savedName = localStorage.getItem('saladName');
+  const clearStorage = name => {
+    localStorage.removeItem(name);
+    window.location.reload();
+  };
+
+  const tagItem = localStorage.getItem('saladTag');
+  const saladItem = localStorage.getItem('saladName');
 
   return (
     <div className="add-name-or-tag-container">
@@ -44,11 +47,11 @@ function AddNameOrTag() {
             label="Choose salad tag"
             type="text"
             value={data.saladTag}
-            onChange={handleChange}
+            onChange={handleInputChange}
           >
             {TAGS.map(tag => (
-              <MenuItem key={tag} value={tag}>
-                {tag}
+              <MenuItem key={tag.id} value={tag.value}>
+                {tag.value}
               </MenuItem>
             ))}
           </TextField>
@@ -57,14 +60,23 @@ function AddNameOrTag() {
             type="button"
             size="medium"
             variant="outlined"
-            onClick={() => addNameOrTagToSalad('saladTag', data.saladTag)}
+            onClick={() => setStorageItem('saladTag', data.saladTag)}
           >
             Add tag
+          </Button>
+          <Button
+            className="delete-tag-button"
+            type="button"
+            size="medium"
+            variant="outlined"
+            onClick={() => clearStorage('saladTag')}
+          >
+            Delete tag
           </Button>
         </div>
         <div className="tag-container">
           <p className="tag-label">Tag name:</p>
-          <p className="tag">{savedTag}</p>
+          <p className="tag">{tagItem || ''}</p>
         </div>
       </div>
 
@@ -79,22 +91,31 @@ function AddNameOrTag() {
             label="Add salad name"
             type="text"
             value={data.saladName}
-            onChange={handleChange}
+            onChange={handleInputChange}
           />
           <Button
             className="add-name-button"
             type="button"
             size="medium"
             variant="outlined"
-            onClick={() => addNameOrTagToSalad('saladName', data.saladName)}
+            onClick={() => setStorageItem('saladName', data.saladName)}
           >
             Add name
+          </Button>
+          <Button
+            className="delete-name-button"
+            type="button"
+            size="medium"
+            variant="outlined"
+            onClick={() => clearStorage('saladName')}
+          >
+            Delete name
           </Button>
         </div>
 
         <div className="name-container">
           <p className="name-label">Salad name:</p>
-          <p className="name">{savedName}</p>
+          <p className="name">{saladItem}</p>
         </div>
       </div>
     </div>

@@ -11,6 +11,7 @@ import {
   TableSortLabel,
   Tooltip,
   Chip,
+  Typography,
 } from '@material-ui/core';
 import Layout from '../../shared/Layout';
 import Fetching from '../../shared/Fetching';
@@ -49,53 +50,62 @@ function Ingredients() {
     <Layout>
       <div className="ingredients-container">
         {ingredients && ingredients.length > 0 ? (
-          <TableContainer component={Paper}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Ingredient</TableCell>
-                  <TableCell>
-                    Calories
-                    <Tooltip title="Sort by calories" placement="top">
-                      <TableSortLabel
-                        active={true}
-                        onClick={sortCalories}
-                        direction={direction}
-                      />
-                    </Tooltip>
-                  </TableCell>
-                  <TableCell>Tag</TableCell>
-                  <TableCell>Image</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {ingredients.map(data => {
-                  const { image, calories, name, tag, id } = data;
-                  return (
-                    <TableRow key={id}>
-                      <TableCell>{name}</TableCell>
-                      <TableCell>{calories}</TableCell>
-                      <Tooltip title="Filter by tag" placement="left">
-                        <TableCell>
-                          <Chip
-                            className="tag-cell"
-                            variant="outlined"
-                            label={tag}
-                            color="primary"
-                            size="small"
-                            onClick={filterByTags}
-                          ></Chip>
-                        </TableCell>
+          <div>
+            <Typography className="ingredients-headline" variant="h5">
+              Selected ingredients
+            </Typography>
+            <TableContainer component={Paper}>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Ingredient</TableCell>
+                    <TableCell>
+                      Calories
+                      <Tooltip title="Sort by calories" placement="top">
+                        <TableSortLabel
+                          active={true}
+                          onClick={sortCalories}
+                          direction={direction}
+                        />
                       </Tooltip>
-                      <TableCell>
-                        <img className="ingredient-image" src={image} alt="" />
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
-              </TableBody>
-            </Table>
-          </TableContainer>
+                    </TableCell>
+                    <TableCell>Tag</TableCell>
+                    <TableCell>Image</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {ingredients.map(data => {
+                    const { image, calories, name, tag, id } = data;
+                    return (
+                      <TableRow key={id}>
+                        <TableCell>{name}</TableCell>
+                        <TableCell>{calories}</TableCell>
+                        <Tooltip title="Filter by tag" placement="left">
+                          <TableCell>
+                            <Chip
+                              className="tag-cell"
+                              variant="outlined"
+                              label={tag}
+                              color="primary"
+                              size="small"
+                              onClick={filterByTags}
+                            ></Chip>
+                          </TableCell>
+                        </Tooltip>
+                        <TableCell>
+                          <img
+                            className="ingredient-image"
+                            src={image}
+                            alt=""
+                          />
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </div>
         ) : (
           <Fetching message="No ingredients!" />
         )}

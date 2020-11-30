@@ -10,6 +10,7 @@
 
       .header-item {
         @include alignMe(center, center);
+        white-space: nowrap;
         font-size: 1.1rem;
         color: $main;
         &:not(:last-child) {

@@ -5,18 +5,24 @@
   width: 100%;
   @include alignMe(space-between, center);
   .tag-name-container {
-    width: 25rem;
+    width: 30rem;
     margin: 0 0 1.5rem 1rem;
     .tag-name-fields-container {
       @include alignMe(space-between, center);
       margin-bottom: 0.5rem;
-      .choose-salad-tag {
+      .choose-salad-tag,
+      .add-salad-name {
         width: 48%;
       }
       .add-tag-button,
       .add-name-button {
-        width: 48%;
+        width: 20%;
         height: 2.5rem;
+        white-space: nowrap;
+      }
+      .delete-name-button,
+      .delete-tag-button {
+        white-space: nowrap;
       }
     }
     .name-container,
@@ -30,7 +36,7 @@
       }
       .tag,
       .name {
-        font-size: $font-size-l;
+        font-size: $font-size-md;
         color: #00973c;
       }
     }
