@@ -13,6 +13,7 @@ import {
   Tooltip,
 } from '@material-ui/core';
 import Layout from '../../shared/Layout';
+import Fetching from '../../shared/Fetching';
 import AddNameOrTag from '../../shared/AddNameOrTag';
 import {
   sortByDescOrder,
@@ -59,7 +60,7 @@ function MakeSalad() {
   return (
     <Layout>
       <div className="make-salad-container">
-        {ingredients && ingredients.length > 0 && (
+        {ingredients && ingredients.length > 0 ? (
           <div>
             <AddNameOrTag />
             <TableContainer component={Paper}>
@@ -121,6 +122,8 @@ function MakeSalad() {
               </Table>
             </TableContainer>
           </div>
+        ) : (
+          <Fetching message="No salads!" />
         )}
       </div>
     </Layout>

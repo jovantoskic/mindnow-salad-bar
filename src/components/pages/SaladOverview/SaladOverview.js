@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-
 import Layout from '../../shared/Layout';
 import {
   Table,
@@ -15,6 +14,7 @@ import {
   Chip,
   Typography,
 } from '@material-ui/core';
+import Fetching from '../../shared/Fetching';
 import { API_BASE_URL } from '../../../constants/apiRoutes';
 import { sortByDescOrder, sumAllCalories } from '../../../utils/helpers';
 
@@ -48,7 +48,7 @@ function SaladOverview() {
   return (
     <Layout>
       <div className="salad-overview-container">
-        {ingredients && ingredients.length > 0 && (
+        {ingredients && ingredients.length > 0 ? (
           <div>
             <div className="headlines-container">
               <Typography variant="h5">{saladName}</Typography>
@@ -95,6 +95,8 @@ function SaladOverview() {
               and it's {saladTag}.
             </Typography>
           </div>
+        ) : (
+          <Fetching message="No salads!" />
         )}
       </div>
     </Layout>

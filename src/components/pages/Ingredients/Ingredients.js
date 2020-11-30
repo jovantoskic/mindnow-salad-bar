@@ -13,6 +13,7 @@ import {
   Chip,
 } from '@material-ui/core';
 import Layout from '../../shared/Layout';
+import Fetching from '../../shared/Fetching';
 import { sortByDescOrder, filterTag } from '../../../utils/helpers';
 import { API_BASE_URL } from '../../../constants/apiRoutes';
 
@@ -47,7 +48,7 @@ function Ingredients() {
   return (
     <Layout>
       <div className="ingredients-container">
-        {ingredients && ingredients.length > 0 && (
+        {ingredients && ingredients.length > 0 ? (
           <TableContainer component={Paper}>
             <Table>
               <TableHead>
@@ -95,6 +96,8 @@ function Ingredients() {
               </TableBody>
             </Table>
           </TableContainer>
+        ) : (
+          <Fetching message="No ingredients!" />
         )}
       </div>
     </Layout>

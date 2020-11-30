@@ -10,7 +10,7 @@ import { TAGS } from '../../../constants/appConstants';
 import './AddIngredients.scss';
 
 function AddIngredients() {
-    const [isDisabled, setIsDisabled] = useState(true);
+  const [isDisabled, setIsDisabled] = useState(true);
   const [data, setData] = useState({
     name: '',
     calories: '',
@@ -18,16 +18,16 @@ function AddIngredients() {
     tag: '',
   });
 
-  const setDisabled = (field) => {
-    if(field !== '') {
-        setIsDisabled(false)
+  const setDisabled = field => {
+    if (field !== '') {
+      setIsDisabled(false);
     }
-  }
+  };
 
   const handleChange = event => {
     const key = event.target.name;
     const value = event.target.value;
-    setDisabled(key)
+    setDisabled(key);
     setData({
       ...data,
       [key]: value,
