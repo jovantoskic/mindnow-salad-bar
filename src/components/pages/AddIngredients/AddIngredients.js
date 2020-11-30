@@ -1,16 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-
-import { Button, TextField, Typography, MenuItem } from '@material-ui/core';
+import { Button, TextField, Typography,MenuItem } from '@material-ui/core';
 import Layout from '../../shared/Layout';
-
 import { API_BASE_URL } from '../../../constants/apiRoutes';
 import { TAGS } from '../../../constants/appConstants';
 
 import './AddIngredients.scss';
 
 function AddIngredients() {
-  const [isDisabled, setIsDisabled] = useState(true);
   const [data, setData] = useState({
     name: '',
     calories: '',
@@ -18,16 +15,9 @@ function AddIngredients() {
     tag: '',
   });
 
-  const setDisabled = field => {
-    if (field !== '') {
-      setIsDisabled(false);
-    }
-  };
-
-  const handleChange = event => {
+  const handleChange = event => {  
     const key = event.target.name;
     const value = event.target.value;
-    setDisabled(key);
     setData({
       ...data,
       [key]: value,
@@ -79,7 +69,7 @@ function AddIngredients() {
           <TextField
             name="image"
             className="input-field"
-            label="Ingredient image"
+            label="Ingredient image URL"
             value={data.image}
             type="text"
             variant="outlined"
@@ -93,7 +83,6 @@ function AddIngredients() {
             required={true}
             className="input-field"
             label="Add tag to ingredient"
-            placeholder="Add tag to ingredient"
             value={data.tag}
             type="text"
             variant="outlined"
@@ -102,12 +91,12 @@ function AddIngredients() {
             onChange={handleChange}
           >
             {TAGS.map(tag => (
-              <MenuItem key={tag} value={tag}>
-                {tag}
+              <MenuItem key={tag.id} value={tag.value}>
+                {tag.value}
               </MenuItem>
             ))}
           </TextField>
-          <Button type="submit" variant="outlined" disabled={isDisabled}>
+          <Button type="submit" variant="outlined">
             Add ingredients
           </Button>
         </form>
