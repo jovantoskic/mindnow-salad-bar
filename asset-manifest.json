@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/mindnow-salad-bar/static/css/main.d21d456f.chunk.css",
+    "main.js": "/mindnow-salad-bar/static/js/main.477e2e3e.chunk.js",
+    "main.js.map": "/mindnow-salad-bar/static/js/main.477e2e3e.chunk.js.map",
+    "runtime-main.js": "/mindnow-salad-bar/static/js/runtime-main.d529b4ae.js",
+    "runtime-main.js.map": "/mindnow-salad-bar/static/js/runtime-main.d529b4ae.js.map",
+    "static/js/2.e29a9cb0.chunk.js": "/mindnow-salad-bar/static/js/2.e29a9cb0.chunk.js",
+    "static/js/2.e29a9cb0.chunk.js.map": "/mindnow-salad-bar/static/js/2.e29a9cb0.chunk.js.map",
+    "static/js/3.a4d264a0.chunk.js": "/mindnow-salad-bar/static/js/3.a4d264a0.chunk.js",
+    "static/js/3.a4d264a0.chunk.js.map": "/mindnow-salad-bar/static/js/3.a4d264a0.chunk.js.map",
+    "index.html": "/mindnow-salad-bar/index.html",
+    "static/css/main.d21d456f.chunk.css.map": "/mindnow-salad-bar/static/css/main.d21d456f.chunk.css.map",
+    "static/js/2.e29a9cb0.chunk.js.LICENSE.txt": "/mindnow-salad-bar/static/js/2.e29a9cb0.chunk.js.LICENSE.txt",
+    "static/media/salad.0eb62565.svg": "/mindnow-salad-bar/static/media/salad.0eb62565.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.d529b4ae.js",
+    "static/js/2.e29a9cb0.chunk.js",
+    "static/css/main.d21d456f.chunk.css",
+    "static/js/main.477e2e3e.chunk.js"
+  ]
+}
